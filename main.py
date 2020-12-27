@@ -6,6 +6,12 @@ import pyttsx3
 
 
 class Cinnamon:
+    responses = {
+        'thanks': 'My pleasure',
+        'greeting': 'Hello! How may I be of assistance?',
+        'goodbye': 'Bye now! I\'ll be over here taking a nap.'
+    }
+
     def __init__(self):
         self.r = sr.Recognizer()
         self.mic = sr.Microphone(device_index=0)
@@ -54,33 +60,46 @@ class Cinnamon:
         except Exception as e:
             print("It appears I have forgotten how to speak! Sorry!")
 
-    def process_audio(self):
-        
+    def process_audio(self): 
+        response = ""
+
+        print("taking in audio")
         with self.mic as source:
             self.r.adjust_for_ambient_noise(source)
             audio = self.r.listen(source, timeout=5)
-            print("taking in audio")
-
-        response = "" if audio is None else self.r.recognize_google(audio)
+            response = "" if audio is None else self.r.recognize_google(audio, language="en")
+        
         return response
+
+    def respond(self, intent):
+        print(intent)
+        try:
+            return self.responses.get(intent, "Oops! I am really glitching out over here")
+        except Exception as e:
+            return "Oops! Didn't get that!"
 
     def chat(self):
         response = ""
         while not ('quit' in response or 'exit' in response):
             print("start speaking!")
-            self.speak("start speaking")
 
             try:
                 response = self.process_audio()
                 print(f"You said {response}")
-                self.speak(response)
-                print(self.predictor.predict_intent(response))
+
+                intents = self.predictor.predict_intent(response)
+                
+                if len(intents) > 0 :
+                    x = self.respond(intents[0]['intent'])
+                    self.speak(x)
+                    if intents[0]['intent'] == 'goodbye':
+                        break
 
                 if "change voice" in response:
                     self.select_voice()
 
             except Exception as e:
-                print("Oops! Didn't get that!")
+                print(e)
 
 if __name__ == "__main__":
     cinnamon = Cinnamon()

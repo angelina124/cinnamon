@@ -43,7 +43,6 @@ class Predictor:
     def predict_intent(self, phrase):
         word_bag = self.word_matrix(phrase)
         results = self.model.predict(np.array([word_bag]))[0]
-        print(results)
 
         results = [[index, res] for index,res in enumerate(results) if res > self.ERROR_THRESHOLD]
 
