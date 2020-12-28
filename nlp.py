@@ -50,6 +50,7 @@ class NLP:
         training = []
 
         for document in self.documents:
+            print(document)
             output = [0] * len(self.classes)
             word_bag = []
             pattern_words = [lemmatizer.lemmatize(word.lower()) for word in document[0]]
@@ -68,7 +69,23 @@ class NLP:
         # create train and test lists. X - patterns, Y - intents
         self.train_x = list(self.training[:,0])
         self.train_y = list(self.training[:,1])
+        print(self.train_x)
+        print(self.train_y)
         print("Training data created")
+
+    def add_training_file(self, filename):
+        file = open(f'training_data/{filename}').readlines()
+
+        for line in file:
+            [pattern,tag] = line.split(';')
+            w = nltk.word_tokenize(pattern)
+            self.words.extend(w)
+            self.documents.append((w, tag.strip('\n')))
+            self.classes.append(tag.strip('\n'))
+
+        self.classes = sorted(list(set(self.classes)))
+
+
 
     def create_model(self):
         model = Sequential()
@@ -97,6 +114,7 @@ class NLP:
 
 if __name__ == '__main__':
     nlp = NLP()
+    nlp.add_training_file('test.txt')
     nlp.create_training_data()
     nlp.create_model()
 

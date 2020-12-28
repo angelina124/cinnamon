@@ -3,19 +3,17 @@
 import speech_recognition as sr
 from predictor import Predictor
 import pyttsx3
+import json
 
 
 class Cinnamon:
-    responses = {
-        'thanks': 'My pleasure',
-        'greeting': 'Hello! How may I be of assistance?',
-        'goodbye': 'Bye now! I\'ll be over here taking a nap.'
-    }
-
     def __init__(self):
         self.r = sr.Recognizer()
         self.mic = sr.Microphone(device_index=0)
         self.predictor = Predictor()
+        intents = json.loads(open('intents.json').read())['intents']
+        print(intents)
+        self.responses = [{str(intent['tag']): intent['responses']} for intent in intents]
 
 
         self.engine=pyttsx3.init('nsss')
