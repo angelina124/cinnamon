@@ -49,8 +49,10 @@ class NLP:
     def create_training_data(self):
         training = []
 
+        i = 0
         for document in self.documents:
-            print(document)
+            print(f"Processing line {i}/{len(self.documents)}")
+            i += 1
             output = [0] * len(self.classes)
             word_bag = []
             pattern_words = [lemmatizer.lemmatize(word.lower()) for word in document[0]]
@@ -69,8 +71,6 @@ class NLP:
         # create train and test lists. X - patterns, Y - intents
         self.train_x = list(self.training[:,0])
         self.train_y = list(self.training[:,1])
-        print(self.train_x)
-        print(self.train_y)
         print("Training data created")
 
     def add_training_file(self, filename):
@@ -84,8 +84,10 @@ class NLP:
             self.classes.append(tag.strip('\n'))
 
         self.classes = sorted(list(set(self.classes)))
+        pickle.dump(self.words,open('words.pkl','wb'))
+        pickle.dump(self.classes,open('classes.pkl','wb'))
 
-
+        print("done adding data")
 
     def create_model(self):
         model = Sequential()
@@ -94,6 +96,8 @@ class NLP:
         model.add(Dense(64, activation='relu'))
         model.add(Dropout(0.5))
         model.add(Dense(len(self.train_y[0]), activation='softmax'))
+
+        print('Created model shape')
 
         # compile model
         sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
@@ -114,7 +118,7 @@ class NLP:
 
 if __name__ == '__main__':
     nlp = NLP()
-    nlp.add_training_file('test.txt')
+    nlp.add_training_file('train.txt')
     nlp.create_training_data()
     nlp.create_model()
 

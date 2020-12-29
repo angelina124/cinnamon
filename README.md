@@ -3,6 +3,10 @@
 This is a basic project that I'm picking up for funsies during the break. Basically,
 the point of this project is to create a bossier life-coach version of Jarvis. 
 
+## About
+After the user speaks, the NLP predicts their intent which can either be 'anger'
+'fear', 'goodbye', 'greeting', 'joy', 'love', 'sadness', 'surprise', or 'thanks'.
+
 ## Project Setup
 DISCLAIMER: Because of an issue with the way tensorflow's keras saves and loads
 models from h5 files, I had to modify the keras package's source code. This issue

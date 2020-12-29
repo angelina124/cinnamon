@@ -4,17 +4,20 @@ import speech_recognition as sr
 from predictor import Predictor
 import pyttsx3
 import json
+import random
 
 
 class Cinnamon:
+    responses = {}
+
     def __init__(self):
         self.r = sr.Recognizer()
         self.mic = sr.Microphone(device_index=0)
         self.predictor = Predictor()
+        print(self.predictor.get_intents())
         intents = json.loads(open('intents.json').read())['intents']
-        print(intents)
-        self.responses = [{str(intent['tag']): intent['responses']} for intent in intents]
-
+        for intent in intents:
+            self.responses[str(intent['tag'])] = intent['responses']
 
         self.engine=pyttsx3.init('nsss')
         self.voices=self.engine.getProperty('voices')
@@ -72,8 +75,11 @@ class Cinnamon:
     def respond(self, intent):
         print(intent)
         try:
-            return self.responses.get(intent, "Oops! I am really glitching out over here")
+            print(self.responses)
+            possible_responses = self.responses[intent]
+            return random.choice(possible_responses)
         except Exception as e:
+            print(e)
             return "Oops! Didn't get that!"
 
     def chat(self):

@@ -15,6 +15,36 @@
          "responses": ["Happy to help!", "Any time!", "My pleasure", "I gotcha bro!"],
          "context": [""]
         },
+        {"tag": "anger",
+        "patterns":[],
+        "responses": ["Dude take a chill pill"],
+        "context": [""]
+        },
+        {"tag": "fear",
+        "patterns":[],
+        "responses": ["Fear is the mind-killer. Fear is the little-death that brings total obliteration. I will face my fear."],
+        "context": [""]
+        },
+        {"tag": "joy",
+        "patterns":[],
+        "responses": ["That's awesome to hear! Take a moment to enjoy this feeling."],
+        "context": [""]
+        },
+        {"tag": "love",
+        "patterns":[],
+        "responses": ["Awwwwwww"],
+        "context": [""]
+        },
+        {"tag": "sadness",
+        "patterns":[],
+        "responses": ["Buddy, keep your head up. I believe in your ability to overcome this."],
+        "context": [""]
+        },
+        {"tag": "surprise",
+        "patterns":[],
+        "responses": ["Holdup what"],
+        "context": [""]
+        },
         {"tag": "noanswer",
          "patterns": [],
          "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],

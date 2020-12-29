@@ -59,4 +59,6 @@ class Predictor:
 
         return formatted_results
 
+    def get_intents(self):
+        return self.classes
     
